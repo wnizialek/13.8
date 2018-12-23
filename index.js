@@ -3,18 +3,18 @@ var fs = require('fs');
 
 var server = http.createServer();
 
-var fileData = fs.readFile('./index.html', 'utf-8', function(err, data) {
-    return data;
-});
+
 
 server.on('request', function (request, response) {
     response.setHeader("Content-Type", "text/html; charset=utf-8");
     if (request.method === 'GET' && request.url === '/hello') {
-        response.write("fileData");
+        fs.readFile('./index.html', 'utf-8', function(err, data) {
+            response.write(data);
             response.end();
+        })
     } else {
             response.statusCode = 404;
-            response.write('404');
+            response.write('<img src="https://zawodbloger.pl/wp-content/uploads/2018/08/404.png">');
             response.end();
     }
 });
